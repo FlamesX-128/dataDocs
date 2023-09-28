@@ -15,25 +15,25 @@
         const menu = document.querySelector(".navbar-menu");
         const navbar = document.querySelector(".navbar");
 
-        document.addEventListener("click", (event) => {
-            if (isMenuOpen && !navbar.contains(event.target as Node)) {
-                burger.classList.remove("is-active");
-                menu.classList.remove("is-active");
-
-                isMenuOpen = false;
-            }
-        });
-
-        burger.addEventListener("click", () => {
+        const menuOnRange = () => {
             burger.classList.toggle("is-active");
             menu.classList.toggle("is-active");
 
             isMenuOpen = !isMenuOpen;
-        });
+        }
+
+        const menuOutRange = (e: Event) => {
+            if (isMenuOpen && !navbar.contains(e.target as Node)) {
+                menuOnRange();
+            }
+        }
+
+        document.addEventListener("click", menuOutRange);
+        burger.addEventListener("click", menuOnRange);
 
         return () => {
-            document.removeEventListener("click", () => {});
-            burger.removeEventListener("click", () => {});
+            document.removeEventListener("click", menuOutRange);
+            burger.removeEventListener("click", menuOnRange);
         };
     });
 </script>
